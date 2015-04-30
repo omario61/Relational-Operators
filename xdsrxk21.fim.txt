@@ -1,0 +1,22 @@
+﻿Revert "Commit with Jars"
+
+This reverts commit 44eec764dc35223743ecf175ea7f30d93eacc8ca.
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch is behind 'origin/master' by 1 commit, and can be fast-forwarded.
+#   (use "git pull" to update your local branch)
+#
+# Changes to be committed:
+#	modified:   .gitignore
+#	deleted:    lib/bufmgr.jar
+#	deleted:    lib/diskmgr.jar
+#	deleted:    lib/heap.jar
+#	deleted:    lib/index.jar
+#
+# Changes not staged for commit:
+#	modified:   Omar-Arafa.minibase
+#	modified:   src/relop/IndexScan.java
+#
+
