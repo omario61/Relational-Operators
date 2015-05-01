@@ -89,7 +89,7 @@ public class FileScan extends Iterator {
 	  
 	  
 	  if(hasNext()){
-		  RID rid = null;//output parameter
+		  RID rid = new RID();;//output parameter
 		  lastRID=rid;
 		  byte[]data=iterator.getNext(rid);
 		  Tuple output=new Tuple(getSchema(), data);

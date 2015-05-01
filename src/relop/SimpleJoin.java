@@ -25,6 +25,7 @@ public class SimpleJoin extends Iterator {
 		this.left=left;
 		this.right=right;
 		conditions=preds;
+		setSchema(Schema.join(this.left.getSchema(),this.right.getSchema()));
 		join(left, right, preds);
 		open=true;
 		// throw new UnsupportedOperationException("Not implemented");

@@ -17,7 +17,7 @@ public class Projection extends Iterator {
 		this.fields = fields.clone();
 		this.setSchema(iter.getSchema());
 		newSchema = new Schema(fields.length);
-		Schema oldSchema = iter.getSchema();
+		Schema oldSchema = getSchema();
 		for (int i = 0; i < fields.length; i++) {
 			int oldPlace = fields[i];
 			newSchema.initField(i, oldSchema.fieldType(oldPlace),
