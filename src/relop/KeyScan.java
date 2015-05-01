@@ -77,7 +77,6 @@ public class KeyScan extends Iterator {
   public boolean hasNext() {
     if(isOpen()){
     	//System.out.println("^__________^ "+iterator.hasNext());
-    	iterator.hasNext();
     	return iterator.hasNext();
     }
     return false;
@@ -95,11 +94,12 @@ public class KeyScan extends Iterator {
 		 //System.out.println("^_^_^_");
 		//  System.out.println(hasNext());
 	  
-	  if(hasNext()){
+	  
 		  RID rid=iterator.getNext();
 		  byte []data=file.selectRecord(rid);
-		  return new Tuple(getSchema(), data) ;
-	  }
+		  if(data != null){
+			  return new Tuple(getSchema(), data) ;
+		  }
 		throw new IllegalStateException("No more tubles");
 	  
     //throw new UnsupportedOperationException("Not implemented");

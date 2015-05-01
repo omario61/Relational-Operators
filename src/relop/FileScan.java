@@ -89,13 +89,14 @@ public class FileScan extends Iterator {
   public Tuple getNext() {
 	  
 	  
-	  if(hasNext()){
+	  
 		  RID rid = new RID();;//output parameter
 		  lastRID=rid;
 		  byte[]data=iterator.getNext(rid);
-		  Tuple output=new Tuple(getSchema(), data);
-		  return output;
-	  }
+		  if(data!= null){
+			  Tuple output=new Tuple(getSchema(), data);
+			  return output;
+		  }
 	  throw new IllegalStateException("No More Tuples.");
   }
 

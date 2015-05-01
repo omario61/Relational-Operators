@@ -81,12 +81,13 @@ public class IndexScan extends Iterator {
    * @throws IllegalStateException if no more tuples
    */
   public Tuple getNext() {
-	  if(this.isOpen()&&iterator.hasNext()){
+	 
 		  RID rid = iterator.getNext();
 		  byte [] data = file.selectRecord(rid);
-		  Tuple tuple = new Tuple(getSchema(), data);
-		  return tuple;
-	  }
+		  if(data != null){
+			  Tuple tuple = new Tuple(getSchema(), data);
+			  return tuple;
+		  }
 	  throw new IllegalStateException("No More Tuples.");
   //  throw new UnsupportedOperationException("Not implemented");
   }
