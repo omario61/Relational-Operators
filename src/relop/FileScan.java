@@ -35,7 +35,7 @@ public class FileScan extends Iterator {
    * child iterators, and increases the indent depth along the way.
    */
   public void explain(int depth) {
-  System.out.println("Aywa  e3ni  3awz eh ^_^");
+	  System.out.println("File  Scan "+file.toString());
 	  //  throw new UnsupportedOperationException("Not implemented");
   }
 
@@ -77,7 +77,8 @@ public class FileScan extends Iterator {
 	  if(isOpen()){
 		  return iterator.hasNext();
 	  }
-	  throw new IllegalStateException("File is closed.");
+	return false;
+	  //  throw new IllegalStateException("File is closed.");
   }
 
   /**

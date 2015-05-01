@@ -62,8 +62,13 @@ public class SimpleJoin extends Iterator {
 	 * child iterators, and increases the indent depth along the way.
 	 */
 	public void explain(int depth) {
-		System.out.println("Aywa e3ni 3awz eh ^__^");
-	}
+		  System.out.println("Select * From "+left.toString());
+		  left.explain(depth+1);
+		  System.out.print("JOIN "+right.toString());
+		  System.out.println("ON");
+		  
+		  for(int i = 0; i< conditions.length;i++)
+		  System.out.print(conditions[i].toString()+((i  == conditions.length -1)?"\n":" "));	}
 
 	/**
 	 * Restarts the iterator, i.e. as if it were just constructed.

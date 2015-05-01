@@ -36,7 +36,7 @@ public class KeyScan extends Iterator {
    * child iterators, and increases the indent depth along the way.
    */
   public void explain(int depth) {
-	  System.out.println("Aywa  e3ni  3awz eh ^_^");
+	  System.out.println("Key  Scan "+index.toString()+" "+key.toString());
 
 	  // throw new UnsupportedOperationException("Not implemented");
   }
@@ -76,11 +76,12 @@ public class KeyScan extends Iterator {
    */
   public boolean hasNext() {
     if(isOpen()){
-    	System.out.println("^__________^ "+iterator.hasNext());
-    	//iterator.hasNext();
+    	//System.out.println("^__________^ "+iterator.hasNext());
+    	iterator.hasNext();
     	return iterator.hasNext();
     }
-	throw new IllegalStateException("Scanner is closed");
+    return false;
+	//throw new IllegalStateException("Scanner is closed");
 	  
 	  //throw new UnsupportedOperationException("Not implemented");
   }
@@ -91,8 +92,8 @@ public class KeyScan extends Iterator {
    * @throws IllegalStateException if no more tuples
    */
   public Tuple getNext() {
-		  System.out.println("^_^_^_");
-		  System.out.println(hasNext());
+		 //System.out.println("^_^_^_");
+		//  System.out.println(hasNext());
 	  
 	  if(hasNext()){
 		  RID rid=iterator.getNext();
