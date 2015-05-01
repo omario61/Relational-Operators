@@ -17,6 +17,7 @@ public class Selection extends Iterator {
   public Selection(Iterator iter, Predicate... preds) {
 	  this.iterator = iter;
 	  this.preds = preds.clone();
+	  this.setSchema(iter.getSchema());
 	  currentTuple = null;
    // throw new UnsupportedOperationException("Not implemented");
   }
