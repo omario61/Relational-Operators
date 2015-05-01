@@ -2,6 +2,7 @@ package relop;
 
 import global.RID;
 import heap.HeapFile;
+import heap.HeapScan;
 
 /**
  * Wrapper for heap file scan, the most basic access method. This "iterator"
@@ -9,11 +10,24 @@ import heap.HeapFile;
  */
 public class FileScan extends Iterator {
 
+	
+	//private Schema schema ;
+	private HeapFile file;
+	private HeapScan iterator;
+	private boolean isOpen;
+	private RID lastRID;
+	
   /**
    * Constructs a file scan, given the schema and heap file.
    */
   public FileScan(Schema schema, HeapFile file) {
-    throw new UnsupportedOperationException("Not implemented");
+	 this.setSchema(schema);
+	  // this.schema=schema;
+	  this.file=file;
+	  iterator=file.openScan();
+	  isOpen=true;
+	  lastRID=null;
+    //throw new UnsupportedOperationException("Not implemented");
   }
 
   /**
@@ -21,35 +35,49 @@ public class FileScan extends Iterator {
    * child iterators, and increases the indent depth along the way.
    */
   public void explain(int depth) {
-    throw new UnsupportedOperationException("Not implemented");
+  System.out.println("Aywa  e3ni  3awz eh ^_^");
+	  //  throw new UnsupportedOperationException("Not implemented");
   }
 
   /**
    * Restarts the iterator, i.e. as if it were just constructed.
    */
   public void restart() {
-    throw new UnsupportedOperationException("Not implemented");
+	  if(isOpen()){
+		  close();
+	  }
+	  iterator=file.openScan();
+	  isOpen=true;
+	  lastRID=null;
+	  
+   // throw new UnsupportedOperationException("Not implemented");
   }
 
   /**
    * Returns true if the iterator is open; false otherwise.
    */
   public boolean isOpen() {
-    throw new UnsupportedOperationException("Not implemented");
+    return isOpen;
+	  //throw new UnsupportedOperationException("Not implemented");
   }
 
   /**
    * Closes the iterator, releasing any resources (i.e. pinned pages).
    */
   public void close() {
-    throw new UnsupportedOperationException("Not implemented");
+	  iterator.close();//Closes the file scan, releasing any pinned pages.
+	  isOpen=false;
+    //throw new UnsupportedOperationException("Not implemented");
   }
 
   /**
    * Returns true if there are more tuples, false otherwise.
    */
   public boolean hasNext() {
-    throw new UnsupportedOperationException("Not implemented");
+	  if(isOpen()){
+		  return iterator.hasNext();
+	  }
+	  throw new IllegalStateException("File is closed.");
   }
 
   /**
@@ -58,14 +86,24 @@ public class FileScan extends Iterator {
    * @throws IllegalStateException if no more tuples
    */
   public Tuple getNext() {
-    throw new UnsupportedOperationException("Not implemented");
+	  
+	  
+	  if(hasNext()){
+		  RID rid = null;//output parameter
+		  lastRID=rid;
+		  byte[]data=iterator.getNext(rid);
+		  Tuple output=new Tuple(getSchema(), data);
+		  return output;
+	  }
+	  throw new IllegalStateException("No More Tuples.");
   }
 
   /**
    * Gets the RID of the last tuple returned.
    */
   public RID getLastRID() {
-    throw new UnsupportedOperationException("Not implemented");
+	  return lastRID;
+   // throw new UnsupportedOperationException("Not implemented");
   }
 
 } // public class FileScan extends Iterator

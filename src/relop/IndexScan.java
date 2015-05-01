@@ -59,7 +59,7 @@ public class IndexScan extends Iterator {
   public void close() {
 	  if(this.isOpen()){
 		  iterator.close();
-		  iterator = null; //not sure about it.
+		//  iterator = null; //not sure about it.
 	  }
 	 isClosed = true;
    // throw new UnsupportedOperationException("Not implemented");

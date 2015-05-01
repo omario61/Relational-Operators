@@ -1,7 +1,6 @@
 package tests;
 
 
-
 import global.AttrOperator;
 import global.AttrType;
 import global.RID;
@@ -258,15 +257,10 @@ class RelOperatorTest extends TestDriver {
 
       // test hash join operator
       saveCounts(null);
-      Predicate[] preds = new Predicate[] {
-              new Predicate(AttrOperator.LT, AttrType.FIELDNO, 3, AttrType.FLOAT,
-                  65F),
-              new Predicate(AttrOperator.GT, AttrType.FIELDNO, 3, AttrType.FLOAT,
-                  15F) };
+      Predicate[] preds = new Predicate[] { new Predicate(AttrOperator.EQ,
+              AttrType.FIELDNO, 0, AttrType.FIELDNO, 5) };
       SimpleJoin join = new SimpleJoin(new FileScan(s_drivers, drivers),
-              new FileScan(s_drivers, drivers), preds);
-      //HashJoin join = new HashJoin(new FileScan(s_drivers, drivers),
-      //    new FileScan(s_rides, rides), 0, 0);
+          new FileScan(s_rides, rides), preds);
       join.execute();
 
       // destroy temp files before doing final counts
@@ -347,13 +341,15 @@ class RelOperatorTest extends TestDriver {
 
       // hash join of hash join; selection for output's sake
       saveCounts(null);
-      Predicate[] preds = new Predicate[] {
-              new Predicate(AttrOperator.LT, AttrType.FIELDNO, 3, AttrType.FLOAT,
-                  65F),
-              new Predicate(AttrOperator.GT, AttrType.FIELDNO, 3, AttrType.FLOAT,
-                  15F) };
+      
+      Predicate[] preds = new Predicate[] { new Predicate(AttrOperator.EQ,
+              AttrType.FIELDNO, 0, AttrType.FIELDNO, 3) };
       SimpleJoin join1 = new SimpleJoin(new FileScan(s_groups, groups), new FileScan(s_rides, rides), preds);
-      SimpleJoin join2 = new SimpleJoin(join1, new FileScan(s_drivers, drivers),preds);
+      
+      preds = new Predicate[] { new Predicate(AttrOperator.EQ,
+              AttrType.FIELDNO, 2, AttrType.FIELDNO, 6) };
+      SimpleJoin join2 = new SimpleJoin(join1, new FileScan(s_drivers, drivers), preds);
+      
       Selection sel = new Selection(join2, new Predicate(AttrOperator.LT,
           AttrType.FIELDNO, 10, AttrType.FIELDNO, 0));
       sel.execute();
