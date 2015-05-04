@@ -13,6 +13,8 @@ public class SimpleJoin extends Iterator {
 	private Iterator left;
 	private Iterator right;
 	private Predicate conditions[];
+	private Predicate conditions2[][];
+
 	private boolean  open;
 	
 	/**
@@ -30,7 +32,52 @@ public class SimpleJoin extends Iterator {
 		open=true;
 		// throw new UnsupportedOperationException("Not implemented");
 	}
+	public SimpleJoin(Iterator left, Iterator right, Predicate[][]preds) {
+		result = new ArrayList<Tuple>();
+		index = 0;
+		this.left=left;
+		this.right=right;
+		conditions2=preds;
+		setSchema(Schema.join(this.left.getSchema(),this.right.getSchema()));
+		join(left, right, preds);
+		open=true;
+		// throw new UnsupportedOperationException("Not implemented");
+	}
 
+	private void join(Iterator left, Iterator right, Predicate[][] conditions) {
+		while (left.hasNext()) {
+			Tuple t1 = left.getNext();
+			while (right.hasNext()) {
+				Tuple t2 = right.getNext();
+				Schema combinedSchema = Schema.join(left.getSchema(),
+						right.getSchema());
+				Tuple combinedTuple = Tuple.join(t1, t2, combinedSchema);
+				boolean satisfy_condtion = true;
+				for(int i=0;i<conditions2.length;i++){
+					boolean b=false;
+					for(int j=0;j<conditions2[i].length;j++){
+						if (conditions[i][j].evaluate(combinedTuple) == true) {
+							b=true;
+							break;
+						}
+
+					}
+					if(b==false){
+						satisfy_condtion = false;
+						break;
+					}
+				}
+				
+				if (satisfy_condtion) {
+					result.add(combinedTuple);
+				}
+
+			}
+			right.restart();
+		}
+		left.close();
+		right.close();
+	}
 	private void join(Iterator left, Iterator right, Predicate[] conditions) {
 		while (left.hasNext()) {
 			Tuple t1 = left.getNext();
