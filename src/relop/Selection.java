@@ -9,19 +9,27 @@ package relop;
 public class Selection extends Iterator {
 
 	private Iterator iterator;
-	private Predicate[] preds;
+	private Predicate[][] preds;
 	private	 Tuple currentTuple;
   /**
    * Constructs a selection, given the underlying iterator and predicates.
    */
   public Selection(Iterator iter, Predicate... preds) {
 	  this.iterator = iter;
+	  this.preds = new Predicate[preds.length][1];
+	  for(int i = 0; i<preds.length;i++)
+		  this.preds[i][0] =preds[i]; 
+	  this.setSchema(iter.getSchema());
+	  currentTuple = null;
+   // throw new UnsupportedOperationException("Not implemented");
+  }
+  public Selection(Iterator iter, Predicate[][] preds) {
+	  this.iterator = iter;
 	  this.preds = preds.clone();
 	  this.setSchema(iter.getSchema());
 	  currentTuple = null;
    // throw new UnsupportedOperationException("Not implemented");
   }
-
   /**
    * Gives a one-line explaination of the iterator, repeats the call on any
    * child iterators, and increases the indent depth along the way.
@@ -68,8 +76,13 @@ public class Selection extends Iterator {
 		  while(iterator.hasNext()){
 			  Tuple canTuple = iterator.getNext();
 			  boolean valid = true;
-			  for(int i = 0; i< preds.length;i++)
-				  valid &= preds[i].evaluate(canTuple);
+			  for(int i = 0; i < preds.length;i++){
+				  boolean or = false;
+				  for(int j = 0; j< preds[i].length;j++)
+					  or |= preds[i][j].evaluate(canTuple); 
+				  valid &= or;
+			  }
+			  
 			  if(valid){
 				  currentTuple = canTuple;
 				  return true;
